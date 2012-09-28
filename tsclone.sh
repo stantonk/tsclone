@@ -3,19 +3,22 @@
 # !IMPORTANT!
 # This script does NOT currently work when not forking. Don't use it for cloning the main repo yet! :)
 # This script also requires that you have virtualenvwrapper installed: http://www.doughellmann.com/projects/virtualenvwrapper/
+# You may need to change the SHEBANG above if you use something other than bash
 
-# usage ts-clone <bitbucket repository url> <fork name>
+# usage ts-clone <bitbucket repository url> <fork name> <virtualenv directory>
 #
-# e.g. ts-clone ssh://hg@bitbucket.org/lucasmoellers/tireswing-fb-private-messages fb-pm
+# e.g. ts-clone ssh://hg@bitbucket.org/lucasmoellers/tireswing-fb-private-messages fb-pm Documents/workspace/tireswing-repos
 #
 #
 
 # CONFIGURATION
-FORK_DIR="/Users/stantonk/Documents/workspace/tireswing-repos/$2"
+FORK_DIR="$HOME/$2/$3"
 
+VIRTUAL_ENV_NAME="$3"
 
-VIRTUAL_ENV_NAME="$2"
-source ~/.bashrc
+RC_FILE="$HOME/.`/usr/bin/basename $SHELL`"rc
+echo $RC_FILE
+source $RC_FILE
 deactivate || true
 
 ######
@@ -33,6 +36,7 @@ echo -e "done.\n"
 echo "Cloning and setting up tireswing fork..."
 mkdir -p $FORK_DIR
 cd $FORK_DIR
+
 hg clone $1 tireswing
 echo -e "done.\n"
 ######
@@ -75,4 +79,3 @@ echo "Setting .venv file..."
 echo "$VIRTUAL_ENV_NAME" > .venv
 echo -e "done.\n"
 ######
-
